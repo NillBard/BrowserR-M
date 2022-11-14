@@ -1,12 +1,13 @@
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Header() {
-  const location = useLocation();
+  const count = useSelector((store) => store?.favouriteCounter?.count);
 
   return (
     <div className="bg-[#202428] w-full py-4">
-      <div className="flex flex-row justify-between items-center max-w-7xl px-12 mx-auto">
+      <div className="box-content flex flex-row justify-between items-center max-w-7xl px-12 mx-auto">
         <nav>
           <NavLink
             to="/characters"
@@ -22,7 +23,7 @@ export default function Header() {
           </NavLink>
         </nav>
         <div className="text-white h-[27px]">
-          <span className="text-[20px]">♡</span> 8
+          <span className="text-[20px]">♡</span> {count}
         </div>
       </div>
     </div>

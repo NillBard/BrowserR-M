@@ -32,8 +32,8 @@ export default function Character() {
   console.log(character);
 
   return (
-    <div className="py-6 px-12">
-      <div className="border border-[#afafaf] flex justify-between rounded overflow-hidden">
+    <div className="box-content max-w-7xl py-6 px-12 mx-auto">
+      <div className=" border border-[#afafaf] flex justify-between rounded overflow-hidden">
         <div className="p-4 leading-[18px]">
           <h1 className="mb-2 leading-[37px] font-bold text-[32px]">
             {character.name}

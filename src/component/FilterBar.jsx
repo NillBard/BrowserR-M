@@ -11,18 +11,18 @@ export default function FilterBar({ speciesFilterCharacter, query }) {
 
   return (
     <section className=" bg-[#f2f2f2] py-4">
-      <div className="max-w-7xl mx-auto flex px-12 items-center">
-        <div className="mr-4 h-[33px] flex  border border-black divide-x divide-black rounded ">
+      <div className="box-content max-w-7xl mx-auto flex px-12 items-center">
+        <div className="mr-4 border border-black flex h-[27px] divide-x divide-black rounded ">
           {filter.map((el) => (
-            <label
+            <div
               key={el.id}
               onClick={() => speciesFilterCharacter(el.species)}
               className={`${
                 el.species === query ? "activeStyle" : "hover:bg-neutral-500"
-              } py-1 px-2 cursor-pointer `}
+              }  py-1 px-2 cursor-pointer flex items-center  `}
             >
-              <span>{el.value}</span>
-            </label>
+              <span className="">{el.value}</span>
+            </div>
           ))}
         </div>
         <SearchInput></SearchInput>
