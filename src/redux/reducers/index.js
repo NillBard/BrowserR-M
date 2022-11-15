@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
-import favouriteCounter from "./favoriteCounter";
+import favourite from "./favourite";
 import characters from "./characters";
 
-const reducer = combineReducers({ favouriteCounter, characters });
+const reducer = combineReducers({ favourite, characters });
 
 export default reducer;

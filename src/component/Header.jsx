@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function Header() {
-  const count = useSelector((store) => store?.favouriteCounter?.count);
+  const count = useSelector((store) => store?.favourite?.count);
 
   return (
     <div className="bg-[#202428] w-full py-4">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { NavLink, Link, useLocation, useSearchParams } from "react-router-dom";
 import CharacterCard from "./component/CharactersCard";
 import FilterBar from "./component/FilterBar";
@@ -14,14 +14,8 @@ export default function MainWindow() {
   const location = useLocation();
   const dispatch = useDispatch();
   const characters = useSelector((store) => store?.characters?.characters);
+  const pageInfo = useSelector((store) => store?.characters?.pageInfo);
 
-  async function fetchCharaters() {
-    try {
-      dispatch(getAllCharacters());
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
   const querySpecies = searchParams.get("species") || "";
   const queryPage = +searchParams.get("page") || 1;
   const queryString = new URLSearchParams(searchParams);
@@ -42,15 +36,17 @@ export default function MainWindow() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    fetchCharaters();
-  }, [location]);
+    dispatch(getAllCharacters(location.search));
+  }, [location, dispatch]);
 
-  const handleAdd = () => {
-    dispatch(addToFavorite());
+  const handleAdd = (id) => {
+    const character = characters.find((el) => el.id === id);
+    dispatch(addToFavorite(character));
   };
 
-  const handleRemove = () => {
-    dispatch(removeFromFavorite());
+  const handleRemove = (id) => {
+    console.log("remove");
+    dispatch(removeFromFavorite(id));
   };
 
   return (
@@ -72,21 +68,35 @@ export default function MainWindow() {
           {characters.map((el) => (
             <NavLink key={el.id} to={`/character/${el.id}`}>
               <CharacterCard
+                id={el.id}
                 src={el.image}
                 name={el.name}
                 status={el.status}
                 species={el.species}
+                add={handleAdd}
+                remove={handleRemove}
               />
             </NavLink>
           ))}
         </div>
         <div className="flex justify-end mt-4">
-          <p className="mr-12">Page {queryPage} of 42</p>
+          <p className="mr-12">
+            Page {queryPage} of {pageInfo.pages}
+          </p>
           <nav>
-            <Link to={`/characters?${changePageNum(-1)}`} className="mr-2">
+            <Link
+              disabled={pageInfo.prev === null}
+              to={`/characters?${changePageNum(-1)}`}
+              className="mr-2"
+            >
               &lt;&lt;Prev
             </Link>
-            <Link to={`/characters?${changePageNum(+1)}`}>Next&gt;&gt;</Link>
+            <Link
+              disabled={pageInfo.next === null}
+              to={`/characters?${changePageNum(+1)}`}
+            >
+              Next&gt;&gt;
+            </Link>
           </nav>
         </div>
       </div>

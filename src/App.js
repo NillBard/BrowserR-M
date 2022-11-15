@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Character from "./component/Character";
 import Favourites from "./component/Favorite";
 import Header from "./component/Header";
 import MainWindow from "./MainWindow";
+import { getFavourite } from "./redux/actions/actionCreatore";
 
 function App() {
+  const favourite = useSelector((store) => store?.favourite?.favouriteChars);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getFavourite());
+    console.log(favourite);
+  }, []);
   return (
     <>
       <Header></Header>

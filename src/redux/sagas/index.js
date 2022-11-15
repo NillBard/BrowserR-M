@@ -1,15 +1,21 @@
 import { takeEvery, put, call } from "redux-saga/effects";
-import { fetchAllCharacters } from "../../api";
-import { ADD_TO_FAVORITE, GET_ALL_CHARACTERS } from "../constants";
-import { setAllCharacters } from "../actions/actionCreatore";
+import { fetchAllCharacters, fetchOneCharacter } from "../../api";
+import { GET_ALL_CHARACTERS, GET_ONE_CHARACTER } from "../constants";
+import { setCharacter, setOneCharacter } from "../actions/actionCreatore";
 
-export function* handleCharacters() {
-  const { results } = yield call(fetchAllCharacters, "");
-  yield put(setAllCharacters(results));
+export function* handleCharacters({ payload }) {
+  const { characters, info } = yield call(fetchAllCharacters, payload);
+  yield put(setCharacter({ characters, info }));
+}
+
+export function* handleOneCharacter({ payload }) {
+  const { results } = yield call(fetchOneCharacter, payload);
+  yield put(setOneCharacter(results));
 }
 
 export function* watchClickSaga() {
   yield takeEvery(GET_ALL_CHARACTERS, handleCharacters);
+  yield takeEvery(GET_ONE_CHARACTER, handleCharacters);
 }
 
 export default function* rootSaga() {

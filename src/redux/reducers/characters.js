@@ -1,11 +1,18 @@
-import { SET_ALL_CHARACTERS } from "../constants";
+import { SET_PAGE, SET_ONE_CHARACTER } from "../constants";
 
 const initialState = { characters: [], pageInfo: {} };
 
 const characters = (state = initialState, { type, payload }) => {
   switch (type) {
-    case SET_ALL_CHARACTERS:
-      return { ...state, characters: [...state.characters, ...payload] };
+    case SET_PAGE: {
+      return {
+        ...state,
+        characters: payload.characters,
+        pageInfo: payload.info,
+      };
+    }
+    case SET_ONE_CHARACTER:
+      return { ...state, currentCharacter: payload };
     default:
       return state;
   }
