@@ -15,18 +15,35 @@ export default function MainWindow() {
   const dispatch = useDispatch();
   const characters = useSelector((store) => store?.characters?.characters);
   const pageInfo = useSelector((store) => store?.characters?.pageInfo);
+  const favouriteChars = useSelector(
+    (store) => store?.favourite?.favouriteChars
+  );
 
   const querySpecies = searchParams.get("species") || "";
   const queryPage = +searchParams.get("page") || 1;
+  const queryName = searchParams.get("name") || "";
   const queryString = new URLSearchParams(searchParams);
+
+  console.log("27", queryString.toString());
 
   const speciesFilterCharacter = (value) => {
     if (value) {
       setSearchParams({ species: value });
     } else {
-      searchParams.delete("species");
-      setSearchParams(searchParams);
+      setSearchParams("");
     }
+  };
+
+  const setName = (name) => {
+    queryString.set("name", name);
+    console.log(queryString.toString());
+    setSearchParams(queryString);
+  };
+
+  const clearInput = () => {
+    searchParams.delete("name");
+    searchParams.delete("page");
+    setSearchParams(searchParams);
   };
 
   const changePageNum = (num) => {
@@ -39,63 +56,72 @@ export default function MainWindow() {
     dispatch(getAllCharacters(location.search));
   }, [location, dispatch]);
 
-  const handleAdd = (id) => {
-    const character = characters.find((el) => el.id === id);
-    dispatch(addToFavorite(character));
+  const isFavourite = (id) => {
+    return !!favouriteChars.find((el) => el.id === id);
   };
 
+  const handleAdd = (id) => {
+    const character = characters.find((el) => el.id === id);
+    const newFav = [...favouriteChars, character];
+    dispatch(addToFavorite(character));
+    localStorage.setItem("FAV_CHARS", JSON.stringify(newFav));
+  };
+
+  const nextPage = changePageNum(+1);
+  const prevPage = changePageNum(-1);
+
   const handleRemove = (id) => {
-    console.log("remove");
-    dispatch(removeFromFavorite(id));
+    const newFav = favouriteChars.filter((el) => el.id !== id);
+    dispatch(removeFromFavorite(newFav));
+    localStorage.setItem("FAV_CHARS", JSON.stringify(newFav));
   };
 
   return (
     <>
       <FilterBar
-        query={querySpecies}
+        querySpecies={querySpecies}
+        queryName={queryName}
         speciesFilterCharacter={speciesFilterCharacter}
+        search={setName}
+        clear={clearInput}
       />
-      <div>
-        <button className="h-4 w-4 bg-indigo-500 mr-4" onClick={handleRemove}>
-          -
-        </button>
-        <button className="h-4 w-4 bg-indigo-500" onClick={handleAdd}>
-          +
-        </button>
-      </div>
+
       <div className="box-content max-w-7xl mx-auto py-6 px-12">
         <div className=" grid grid-cols-4 gap-4 ">
-          {characters.map((el) => (
-            <NavLink key={el.id} to={`/character/${el.id}`}>
-              <CharacterCard
-                id={el.id}
-                src={el.image}
-                name={el.name}
-                status={el.status}
-                species={el.species}
-                add={handleAdd}
-                remove={handleRemove}
-              />
-            </NavLink>
-          ))}
+          {characters ? (
+            characters.map((el) => (
+              <NavLink key={el.id} to={`/character/${el.id}`}>
+                <CharacterCard
+                  id={el.id}
+                  src={el.image}
+                  name={el.name}
+                  status={el.status}
+                  species={el.species}
+                  add={handleAdd}
+                  remove={handleRemove}
+                  isFavourite={isFavourite}
+                />
+              </NavLink>
+            ))
+          ) : (
+            <div className="leading-[18px]">No cards</div>
+          )}
         </div>
-        <div className="flex justify-end mt-4">
+        <div className="leading-none flex justify-end mt-4">
           <p className="mr-12">
-            Page {queryPage} of {pageInfo.pages}
+            Page {queryPage} of {pageInfo?.pages || 1}
           </p>
           <nav>
             <Link
-              disabled={pageInfo.prev === null}
-              to={`/characters?${changePageNum(-1)}`}
-              className="mr-2"
+              disabled={!pageInfo?.prev}
+              to={`/characters?${prevPage}`}
+              className="ml-2 mr-2"
             >
-              &lt;&lt;Prev
+              &lt;&lt; Prev
             </Link>
-            <Link
-              disabled={pageInfo.next === null}
-              to={`/characters?${changePageNum(+1)}`}
-            >
-              Next&gt;&gt;
+            <Link disabled={!pageInfo?.next} to={`/characters?${nextPage}`}>
+              {" "}
+              <span> Next &gt;&gt;</span>
             </Link>
           </nav>
         </div>

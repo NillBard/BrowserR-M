@@ -1,20 +1,13 @@
 export const fetchAllCharacters = async (query) => {
   try {
-    console.log(query);
     const response = await fetch(
       `https://rickandmortyapi.com/api/character${query}`
     );
     const { info, results } = await response.json();
-    const favourite = JSON.parse(localStorage.getItem("FAV_CHARS")) || [];
 
-    const characters = results.map((character) => ({
-      ...character,
-      isFavourite: !!favourite.find((el) => el.id === character.id),
-    }));
-
-    return { info, characters };
+    return { info, results };
   } catch (error) {
-    throw new Error(error);
+    throw console.log(error);
   }
 };
 
@@ -23,16 +16,20 @@ export const fetchOneCharacter = async (id) => {
     const response = await fetch(
       `https://rickandmortyapi.com/api/character/${id}`
     );
-    const data = await response.json();
-    const favourite = JSON.parse(localStorage.getItem("FAV_CHARS")) || [];
+    const character = await response.json();
 
-    const character = {
-      ...data,
-      isFavourite: !!favourite.find((el) => el.id === data.id),
-    };
-
-    return { character };
+    return character;
   } catch (error) {
     throw new Error(error);
   }
 };
+
+export async function fetchSeen(first) {
+  try {
+    const response = await fetch(first);
+    const data = await response.json();
+    return data.name;
+  } catch (error) {
+    throw new Error(error);
+  }
+}

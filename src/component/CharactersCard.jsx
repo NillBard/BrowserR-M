@@ -8,10 +8,11 @@ export default function CharacterCard({
   species,
   add,
   remove,
+  isFavourite,
 }) {
   const toggleFavourite = (event) => {
     event.preventDefault();
-    remove(id);
+    isFavourite(id) ? remove(id) : add(id);
   };
 
   return (
@@ -26,7 +27,7 @@ export default function CharacterCard({
           onClick={toggleFavourite}
           className="bg-black p-2 text-white text-[14px] leading-[16px] rounded border-none cursor-pointer"
         >
-          Add to Favourites
+          {isFavourite(id) ? "Remove from Favourite" : "Add to Favourites"}
         </button>
       </div>
     </div>

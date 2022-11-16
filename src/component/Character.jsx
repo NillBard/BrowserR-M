@@ -1,35 +1,43 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import {
+  getOneCharacters,
+  removeFromFavorite,
+  addToFavorite,
+} from "../redux/actions/actionCreatore";
 
 export default function Character() {
   const { id } = useParams();
-  const [character, setCharacter] = useState({});
+  const dispatch = useDispatch();
+  const character = useSelector((store) => store?.characters?.currentCharacter);
+  const favouriteChars = useSelector(
+    (store) => store?.favourite?.favouriteChars
+  );
 
-  async function fetchCharacter() {
-    const response = await fetch(
-      `https://rickandmortyapi.com/api/character/${id}`
-    );
-    const data = await response.json();
-    const firstSeen = await fetchSeen(data.episode[0]);
-    const newCharacter = { ...data, firstSeen };
-    setCharacter(newCharacter);
-  }
+  const isFavourite = () => {
+    return !!favouriteChars.find((el) => el.id === +id);
+  };
 
-  async function fetchSeen(first) {
-    try {
-      const response = await fetch(first);
-      const data = await response.json();
-      return data.name;
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
+  const handleAdd = () => {
+    const newFav = [...favouriteChars, character];
+    dispatch(addToFavorite(character));
+    localStorage.setItem("FAV_CHARS", JSON.stringify(newFav));
+  };
+
+  const handleRemove = () => {
+    const newFav = favouriteChars.filter((el) => el.id !== +id);
+    dispatch(removeFromFavorite(newFav));
+    localStorage.setItem("FAV_CHARS", JSON.stringify(newFav));
+  };
+
+  const toggleToFavourite = () => {
+    isFavourite() ? handleRemove() : handleAdd();
+  };
+
   useEffect(() => {
-    console.log("here");
-    fetchCharacter();
+    dispatch(getOneCharacters(id));
   }, []);
-
-  console.log(character);
 
   return (
     <div className="box-content max-w-7xl py-6 px-12 mx-auto">
@@ -46,8 +54,11 @@ export default function Character() {
           </p>
 
           <p className="mb-2">First seen in: {character.firstSeen}</p>
-          <button className="bg-black p-2 text-white text-[14px] rounded border-none cursor-pointer">
-            Add To Favourites
+          <button
+            onClick={toggleToFavourite}
+            className="bg-black p-2 text-white text-[14px] leading-[16px] rounded border-none cursor-pointer"
+          >
+            {isFavourite() ? "Remove from Favourites" : "Add to Favourites"}
           </button>
         </div>
         <img

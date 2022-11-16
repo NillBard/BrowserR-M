@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Character from "./component/Character";
 import Favourites from "./component/Favorite";
@@ -8,11 +8,11 @@ import MainWindow from "./MainWindow";
 import { getFavourite } from "./redux/actions/actionCreatore";
 
 function App() {
-  const favourite = useSelector((store) => store?.favourite?.favouriteChars);
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(getFavourite());
-    console.log(favourite);
+    const favourites = JSON.parse(localStorage.getItem("FAV_CHARS")) || [];
+    dispatch(getFavourite(favourites));
   }, []);
   return (
     <>

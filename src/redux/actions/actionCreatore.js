@@ -23,10 +23,10 @@ export const getAllCharacters = (payload) => ({
   payload,
 });
 
-export const setCharacter = ({ characters, info }) => ({
+export const setCharacter = ({ results, info }) => ({
   type: SET_PAGE,
   payload: {
-    characters,
+    results,
     info,
   },
 });
@@ -41,6 +41,7 @@ export const setOneCharacter = (payload) => ({
   payload,
 });
 
-export const getFavourite = () => ({
+export const getFavourite = (payload) => ({
   type: SET_FAVORITE,
+  payload,
 });

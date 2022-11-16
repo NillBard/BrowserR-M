@@ -10,24 +10,17 @@ const favourite = (
 ) => {
   switch (type) {
     case ADD_TO_FAVORITE: {
-      const favourite = JSON.parse(localStorage.getItem("FAV_CHARS")) || [];
-      const newFav = [...favourite];
-      newFav.push(payload);
-      localStorage.setItem("FAV_CHARS", JSON.stringify(newFav));
-      return { ...state, count: state.count + 1, favouriteChars: newFav };
+      return {
+        ...state,
+        count: state.count + 1,
+        favouriteChars: [...state.favouriteChars, payload],
+      };
     }
     case REMOVE_FROM_FAVORITE: {
-      const storage = JSON.parse(localStorage.getItem("FAV_CHARS")) || [];
-      console.log(payload);
-      const newFav = storage.filter((el) => el.id !== payload);
-      console.log(newFav);
-      localStorage.setItem("FAV_CHARS", JSON.stringify(newFav));
-      return { ...state, count: state.count - 1, favouriteChars: newFav };
+      return { ...state, count: state.count - 1, favouriteChars: payload };
     }
     case SET_FAVORITE: {
-      const storage = JSON.parse(localStorage.getItem("FAV_CHARS")) || [];
-      const counter = storage.length;
-      return { ...state, count: counter, favouriteChars: storage };
+      return { ...state, count: payload.length, favouriteChars: payload };
     }
     default:
       return state;
