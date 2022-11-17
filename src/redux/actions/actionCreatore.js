@@ -6,16 +6,17 @@ import {
   GET_ONE_CHARACTER,
   SET_ONE_CHARACTER,
   SET_FAVORITE,
+  CLEAR_NOTIFICATION,
 } from "../constants";
 
-export const addToFavorite = (id) => ({
+export const addToFavorite = ({ date, character }) => ({
   type: ADD_TO_FAVORITE,
-  payload: id,
+  payload: { date, character },
 });
 
-export const removeFromFavorite = (id) => ({
+export const removeFromFavorite = ({ date, character }) => ({
   type: REMOVE_FROM_FAVORITE,
-  payload: id,
+  payload: { date, character },
 });
 
 export const getAllCharacters = (payload) => ({
@@ -43,5 +44,10 @@ export const setOneCharacter = (payload) => ({
 
 export const getFavourite = (payload) => ({
   type: SET_FAVORITE,
+  payload,
+});
+
+export const clearNotification = (payload) => ({
+  type: CLEAR_NOTIFICATION,
   payload,
 });

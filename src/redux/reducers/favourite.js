@@ -17,7 +17,13 @@ const favourite = (
       };
     }
     case REMOVE_FROM_FAVORITE: {
-      return { ...state, count: state.count - 1, favouriteChars: payload };
+      return {
+        ...state,
+        count: state.count - 1,
+        favouriteChars: state.favouriteChars.filter(
+          (el) => el.id !== payload.id
+        ),
+      };
     }
     case SET_FAVORITE: {
       return { ...state, count: payload.length, favouriteChars: payload };
