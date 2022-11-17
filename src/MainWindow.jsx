@@ -3,11 +3,7 @@ import { NavLink, Link, useLocation, useSearchParams } from "react-router-dom";
 import CharacterCard from "./component/CharactersCard";
 import FilterBar from "./component/FilterBar";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addToFavorite,
-  removeFromFavorite,
-  getAllCharacters,
-} from "./redux/actions/actionCreatore";
+import { getAllCharacters } from "./redux/actions/actionCreatore";
 
 export default function MainWindow() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -15,29 +11,29 @@ export default function MainWindow() {
   const dispatch = useDispatch();
   const characters = useSelector((store) => store?.characters?.characters);
   const pageInfo = useSelector((store) => store?.characters?.pageInfo);
-  const favouriteChars = useSelector(
-    (store) => store?.favourite?.favouriteChars
-  );
 
   const querySpecies = searchParams.get("species") || "";
   const queryPage = +searchParams.get("page") || 1;
   const queryName = searchParams.get("name") || "";
   const queryString = new URLSearchParams(searchParams);
 
-  console.log("27", queryString.toString());
-
   const speciesFilterCharacter = (value) => {
+    const params = {};
+    if (queryName) params.name = queryName;
     if (value) {
-      setSearchParams({ species: value });
+      params.species = value;
+      setSearchParams(params);
     } else {
-      setSearchParams("");
+      setSearchParams(params);
     }
   };
 
   const setName = (name) => {
-    queryString.set("name", name);
-    console.log(queryString.toString());
-    setSearchParams(queryString);
+    const params = {};
+    if (querySpecies) params.species = querySpecies;
+    params.name = name;
+    console.log(params);
+    setSearchParams(params);
   };
 
   const clearInput = () => {
@@ -56,25 +52,8 @@ export default function MainWindow() {
     dispatch(getAllCharacters(location.search));
   }, [location, dispatch]);
 
-  const isFavourite = (id) => {
-    return !!favouriteChars.find((el) => el.id === id);
-  };
-
-  const handleAdd = (id) => {
-    const character = characters.find((el) => el.id === id);
-    const newFav = [...favouriteChars, character];
-    dispatch(addToFavorite(character));
-    localStorage.setItem("FAV_CHARS", JSON.stringify(newFav));
-  };
-
   const nextPage = changePageNum(+1);
   const prevPage = changePageNum(-1);
-
-  const handleRemove = (id) => {
-    const newFav = favouriteChars.filter((el) => el.id !== id);
-    dispatch(removeFromFavorite(newFav));
-    localStorage.setItem("FAV_CHARS", JSON.stringify(newFav));
-  };
 
   return (
     <>
@@ -92,14 +71,11 @@ export default function MainWindow() {
             characters.map((el) => (
               <NavLink key={el.id} to={`/character/${el.id}`}>
                 <CharacterCard
-                  id={el.id}
+                  character={el}
                   src={el.image}
                   name={el.name}
                   status={el.status}
                   species={el.species}
-                  add={handleAdd}
-                  remove={handleRemove}
-                  isFavourite={isFavourite}
                 />
               </NavLink>
             ))

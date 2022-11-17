@@ -1,43 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-  getOneCharacters,
-  removeFromFavorite,
-  addToFavorite,
-} from "../redux/actions/actionCreatore";
+import { getOneCharacters } from "../redux/actions/actionCreatore";
+import ToggleFavouriteButton from "./ToggleFavoriteButton";
 
 export default function Character() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const character = useSelector((store) => store?.characters?.currentCharacter);
-  const favouriteChars = useSelector(
-    (store) => store?.favourite?.favouriteChars
-  );
-
-  const isFavourite = () => {
-    return !!favouriteChars.find((el) => el.id === +id);
-  };
-
-  const handleAdd = () => {
-    const newFav = [...favouriteChars, character];
-    dispatch(addToFavorite(character));
-    localStorage.setItem("FAV_CHARS", JSON.stringify(newFav));
-  };
-
-  const handleRemove = () => {
-    const newFav = favouriteChars.filter((el) => el.id !== +id);
-    dispatch(removeFromFavorite(newFav));
-    localStorage.setItem("FAV_CHARS", JSON.stringify(newFav));
-  };
-
-  const toggleToFavourite = () => {
-    isFavourite() ? handleRemove() : handleAdd();
-  };
 
   useEffect(() => {
     dispatch(getOneCharacters(id));
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="box-content max-w-7xl py-6 px-12 mx-auto">
@@ -54,16 +28,12 @@ export default function Character() {
           </p>
 
           <p className="mb-2">First seen in: {character.firstSeen}</p>
-          <button
-            onClick={toggleToFavourite}
-            className="bg-black p-2 text-white text-[14px] leading-[16px] rounded border-none cursor-pointer"
-          >
-            {isFavourite() ? "Remove from Favourites" : "Add to Favourites"}
-          </button>
+          <ToggleFavouriteButton character={character} />
         </div>
         <img
           className="object-cover w-[300px] h-[300px]"
           src={character.image}
+          alt={character.name}
         />
       </div>
     </div>
