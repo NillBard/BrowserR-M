@@ -7,3 +7,5 @@ export const SET_ONE_CHARACTER = "SET_ONE_CHARACTERS";
 export const SET_PAGE_INFO = "SET_ONE_CHARACTERS";
 export const SET_FAVORITE = "SET_FAVORITE";
 export const CLEAR_NOTIFICATION = "CLEAR_NOTIFICATION";
+export const SET_USER = "SET_USER";
+export const LOGOUT_USER = "LOGOUT_USER";

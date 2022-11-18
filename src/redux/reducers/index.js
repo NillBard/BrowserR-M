@@ -3,11 +3,13 @@ import favourite from "./favourite";
 import characters from "./characters";
 import notifications from "./notification";
 import { reducer as formReducer } from "redux-form";
+import user from "./user";
 
 const reducer = combineReducers({
   favourite,
   characters,
   notifications,
+  user,
   form: formReducer,
 });
 

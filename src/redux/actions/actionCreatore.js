@@ -7,6 +7,8 @@ import {
   SET_ONE_CHARACTER,
   SET_FAVORITE,
   CLEAR_NOTIFICATION,
+  SET_USER,
+  LOGOUT_USER,
 } from "../constants";
 
 export const addToFavorite = ({ date, character }) => ({
@@ -50,4 +52,13 @@ export const getFavourite = (payload) => ({
 export const clearNotification = (payload) => ({
   type: CLEAR_NOTIFICATION,
   payload,
+});
+
+export const setUser = (payload) => ({
+  type: SET_USER,
+  payload,
+});
+
+export const logOutUser = () => ({
+  type: LOGOUT_USER,
 });

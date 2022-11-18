@@ -13,7 +13,7 @@ const favourite = (
       return {
         ...state,
         count: state.count + 1,
-        favouriteChars: [...state.favouriteChars, payload],
+        favouriteChars: [...state.favouriteChars, payload.character],
       };
     }
     case REMOVE_FROM_FAVORITE: {
@@ -21,7 +21,7 @@ const favourite = (
         ...state,
         count: state.count - 1,
         favouriteChars: state.favouriteChars.filter(
-          (el) => el.id !== payload.id
+          (el) => el.id !== payload.character.id
         ),
       };
     }
