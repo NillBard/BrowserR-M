@@ -1,4 +1,4 @@
-import { takeEvery, put, call, fork, spawn, all } from "redux-saga/effects";
+import { takeEvery, put, call, select, spawn, all } from "redux-saga/effects";
 import { fetchAllCharacters, fetchOneCharacter, fetchSeen } from "../../api";
 import { GET_ALL_CHARACTERS, GET_ONE_CHARACTER } from "../constants";
 import { setCharacter, setOneCharacter } from "../actions/actionCreatore";
