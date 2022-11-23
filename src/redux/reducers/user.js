@@ -1,12 +1,13 @@
 import { LOGOUT_USER, SET_USER } from "../constants";
 
-const user = (state = { user: null }, { type, payload }) => {
+const user = (state = { token: null }, { type, payload }) => {
   switch (type) {
-    case SET_USER:
+    case SET_USER: {
       return {
         ...state,
-        user: payload,
+        token: payload,
       };
+    }
 
     case LOGOUT_USER:
       return {
@@ -15,7 +16,7 @@ const user = (state = { user: null }, { type, payload }) => {
       };
 
     default:
-      return { state };
+      return state;
   }
 };
 

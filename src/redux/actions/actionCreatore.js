@@ -9,16 +9,22 @@ import {
   CLEAR_NOTIFICATION,
   SET_USER,
   LOGOUT_USER,
+  LOGIN_USER,
+  SIGNUP_USER,
+  AUTH_USER,
+  GET_FAVORITE,
+  REMOVE_ONE_FAVOURITE,
+  SET_ONE_FAVOURITE,
 } from "../constants";
 
-export const addToFavorite = ({ date, character }) => ({
+export const addToFavorite = ({ date, id, name }) => ({
   type: ADD_TO_FAVORITE,
-  payload: { date, character },
+  payload: { date, id, name },
 });
 
-export const removeFromFavorite = ({ date, character }) => ({
+export const removeFromFavorite = ({ date, id, name }) => ({
   type: REMOVE_FROM_FAVORITE,
-  payload: { date, character },
+  payload: { date, id, name },
 });
 
 export const getAllCharacters = (payload) => ({
@@ -44,7 +50,11 @@ export const setOneCharacter = (payload) => ({
   payload,
 });
 
-export const getFavourite = (payload) => ({
+export const getFavourite = () => ({
+  type: GET_FAVORITE,
+});
+
+export const setFavourite = (payload) => ({
   type: SET_FAVORITE,
   payload,
 });
@@ -61,4 +71,28 @@ export const setUser = (payload) => ({
 
 export const logOutUser = () => ({
   type: LOGOUT_USER,
+});
+
+export const loginUser = (payload) => ({
+  type: LOGIN_USER,
+  payload,
+});
+
+export const signupUser = (payload) => ({
+  type: SIGNUP_USER,
+  payload,
+});
+
+export const authUser = () => ({
+  type: AUTH_USER,
+});
+
+export const setOneFavourite = (payload) => ({
+  type: SET_ONE_FAVOURITE,
+  payload,
+});
+
+export const removeOneFavourite = (payload) => ({
+  type: REMOVE_ONE_FAVOURITE,
+  payload,
 });

@@ -11,7 +11,7 @@ export default function CharacterCard({
   return (
     <div className="border border-[#afafaf]  rounded overflow-hidden">
       <img className="object-cover w-full h-[200px]" src={src} alt={name} />
-      <div className="p-4 box-content leading-[18px] text-[16px]">
+      <div className="mt-[4px] p-4 box-content leading-[18px] text-[16px]">
         <h4 className="mb-2 font-bold ">{name}</h4>
         <p className="mb-2">
           {species} - {status}

@@ -5,33 +5,39 @@ import SignUp from "./component/SignUp";
 import MainWindow from "./MainWindow";
 import {
   CHARACTERS_ROUTE,
+  CHARACTER_ROUTE,
   FAVOURITES_ROUTE,
   LOGIN_ROUTE,
   SIGNUP_ROUTE,
 } from "./utils/consts";
 
-export const publicRoutes = [
-  {
-    path: LOGIN_ROUTE,
-    Comoinent: Login,
-  },
-  {
-    path: SIGNUP_ROUTE,
-    Comoinent: SignUp,
-  },
-];
+export const publicRoutes = {
+  withoutLayout: [
+    {
+      path: LOGIN_ROUTE,
+      Component: <Login />,
+    },
+    {
+      path: SIGNUP_ROUTE,
+      Component: <SignUp />,
+    },
+  ],
+
+  withLayout: [
+    {
+      path: CHARACTERS_ROUTE,
+      Component: <MainWindow />,
+    },
+    {
+      path: CHARACTER_ROUTE + "/:id",
+      Component: <Character />,
+    },
+  ],
+};
 
 export const privateRoutes = [
   {
-    path: CHARACTERS_ROUTE,
-    Comoinent: MainWindow,
-  },
-  {
     path: FAVOURITES_ROUTE,
-    Comoinent: Favourites,
-  },
-  {
-    path: CHARACTER_ROUTE + "/:id",
-    Comoinent: Character,
+    Component: <Favourites />,
   },
 ];

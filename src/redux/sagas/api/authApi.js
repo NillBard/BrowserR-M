@@ -1,7 +1,8 @@
-export async function login(form) {
+export async function fetchLogin(form) {
   try {
-    const response = await fetch("https://localhost:5000/api/users/login", {
+    const response = await fetch("http://localhost:5000/api/users/login", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -13,10 +14,12 @@ export async function login(form) {
   } catch (error) {}
 }
 
-export async function registration(form) {
+export async function fetchRegistration(form) {
   try {
-    const response = await fetch("https://localhost:5000/api/users/signup", {
+    console.log(form);
+    const response = await fetch("http://localhost:5000/api/users/signup", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -30,10 +33,9 @@ export async function registration(form) {
 
 export async function auth() {
   try {
-    const response = await fetch("https://localhost:5000/api/users/auth", {
-      headers: {
-        credentials: "include",
-      },
+    const response = await fetch("http://localhost:5000/api/users/auth", {
+      method: "GET",
+      credentials: "include",
     });
 
     const { data } = await response.json();

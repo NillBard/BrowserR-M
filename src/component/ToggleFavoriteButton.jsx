@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   removeFromFavorite,
   addToFavorite,
@@ -11,21 +12,21 @@ export default function ToggleFavouriteButton({ character }) {
   const favouriteChars = useSelector(
     (store) => store?.favourite?.favouriteChars
   );
+  const user = useSelector((store) => store?.user?.token);
+  const navigate = useNavigate();
 
   const isFavourite = () => {
     return !!favouriteChars.find((el) => el.id === character.id);
   };
 
   const handleAdd = (date) => {
-    const newFav = [...favouriteChars, character];
-    dispatch(addToFavorite({ date, character }));
-    localStorage.setItem("FAV_CHARS", JSON.stringify(newFav));
+    dispatch(addToFavorite({ date, id: character.id, name: character.name }));
   };
 
   const handleRemove = (date) => {
-    const newFav = favouriteChars.filter((el) => el.id !== character.id);
-    dispatch(removeFromFavorite({ date, character }));
-    localStorage.setItem("FAV_CHARS", JSON.stringify(newFav));
+    dispatch(
+      removeFromFavorite({ date, id: character.id, name: character.name })
+    );
   };
 
   const removeNotification = (date) => {
@@ -33,10 +34,14 @@ export default function ToggleFavouriteButton({ character }) {
   };
 
   const toggleToFavourite = (e) => {
-    const date = Date.now();
     e.preventDefault();
-    isFavourite() ? handleRemove(date) : handleAdd(date);
-    removeNotification(date);
+    if (user) {
+      const date = Date.now();
+      isFavourite() ? handleRemove(date) : handleAdd(date);
+      removeNotification(date);
+    } else {
+      return navigate("/login");
+    }
   };
 
   return (

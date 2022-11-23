@@ -1,17 +1,23 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
-import { clearNotification } from "../redux/actions/actionCreatore";
+import {
+  clearNotification,
+  getFavourite,
+} from "../redux/actions/actionCreatore";
 import Header from "./Header";
 import Notification from "./Notification";
 
 const Layout = () => {
-  const dispatch = useDispatch();
   const notifications = useSelector(
     (store) => store?.notifications?.notifications
   );
+  const dispatch = useDispatch();
+
   const clear = (id) => {
     dispatch(clearNotification(id));
   };
+
   return (
     <>
       <Header />

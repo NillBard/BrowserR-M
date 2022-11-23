@@ -1,33 +1,35 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Route, Routes, Navigate } from "react-router-dom";
-import Character from "./component/Character";
-import Favourites from "./component/Favorite";
+import { useDispatch, useSelector } from "react-redux";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { Layout } from "./component/Layout";
-import Login from "./component/Logins";
 import NotFoundPage from "./component/NotFoundPage";
-import SignUp from "./component/SignUp";
-import MainWindow from "./MainWindow";
-import { getFavourite } from "./redux/actions/actionCreatore";
+import { authUser, getFavourite } from "./redux/actions/actionCreatore";
+import { privateRoutes, publicRoutes } from "./routes";
 
 function App() {
+  const token = useSelector((store) => store?.user?.token);
   const dispatch = useDispatch();
-
   useEffect(() => {
-    const favourites = JSON.parse(localStorage.getItem("FAV_CHARS")) || [];
-    dispatch(getFavourite(favourites));
+    dispatch(authUser());
   }, []);
+
+  const isAuth = !!token;
 
   return (
     <>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        {publicRoutes.withoutLayout.map(({ path, Component }) => (
+          <Route key={path} path={path} element={Component} />
+        ))}
         <Route path="/" element={<Layout />}>
           <Route index element={<Navigate to="characters" />} />
-          <Route path="characters" element={<MainWindow />} />
-          <Route path="favourites" element={<Favourites />} />
-          <Route path="character/:id" element={<Character />} />
+          {isAuth &&
+            privateRoutes.map(({ path, Component }) => (
+              <Route key={path} path={path} element={Component} />
+            ))}
+          {publicRoutes.withLayout.map(({ path, Component }) => (
+            <Route key={path} path={path} element={Component} />
+          ))}
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

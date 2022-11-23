@@ -1,10 +1,16 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { getFavourite } from "../redux/actions/actionCreatore";
 import CharacterCard from "./CharactersCard";
 
 export default function Favourites() {
   const favourite = useSelector((store) => store?.favourite?.favouriteChars);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getFavourite());
+  }, []);
 
   return (
     <div className="box-content max-w-7xl mx-auto py-6 px-12">
@@ -17,6 +23,7 @@ export default function Favourites() {
                 src={el.image}
                 name={el.name}
                 status={el.status}
+                species={el.species}
               />
             </NavLink>
           ))
