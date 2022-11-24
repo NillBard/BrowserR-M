@@ -8,12 +8,12 @@ import {
 } from "../redux/actions/actionCreatore";
 
 export default function ToggleFavouriteButton({ character }) {
-  const dispatch = useDispatch();
   const favouriteChars = useSelector(
     (store) => store?.favourite?.favouriteChars
   );
   const user = useSelector((store) => store?.user?.token);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const isFavourite = () => {
     return !!favouriteChars.find((el) => el.id === character.id);

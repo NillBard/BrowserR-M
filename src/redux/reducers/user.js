@@ -8,7 +8,6 @@ const user = (state = { token: null }, { type, payload }) => {
         token: payload,
       };
     }
-
     case LOGOUT_USER:
       return {
         ...state,

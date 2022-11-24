@@ -9,7 +9,7 @@ export default function Header() {
 
   return (
     <div className="bg-[#202428] w-full py-4">
-      <div className="box-content flex flex-row justify-between items-center max-w-7xl px-12 mx-auto">
+      <div className="box-content h-[27px] flex flex-row justify-between items-center max-w-7xl px-12 mx-auto">
         <nav>
           <NavLink
             to="/characters"

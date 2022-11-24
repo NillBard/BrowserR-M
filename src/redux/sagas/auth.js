@@ -1,16 +1,9 @@
-import {
-  call,
-  put,
-  fork,
-  takeEvery,
-  all,
-  spawn,
-  take,
-} from "redux-saga/effects";
+import { call, put, fork, takeEvery, all, take } from "redux-saga/effects";
 import { auth, fetchLogin, fetchRegistration } from "./api/authApi";
-import { getFavourite, setUser } from "../actions/actionCreatore";
+import { setErorr, setUser } from "../actions/actionCreatore";
 import { AUTH_USER, GET_FAVORITE, LOGIN_USER, SIGNUP_USER } from "../constants";
 import { handleGetAllFavourite } from "./favourites";
+import { showErrorMesseage } from "./api/errorHandler";
 
 export function* login({ payload }) {
   try {
@@ -18,7 +11,7 @@ export function* login({ payload }) {
     yield put(setUser(data));
     yield take(GET_FAVORITE);
   } catch (error) {
-    console.log(error);
+    yield showErrorMesseage(error.message);
   }
 }
 
@@ -27,7 +20,10 @@ export function* registration({ payload }) {
     const data = yield call(fetchRegistration, payload);
     yield put(setUser(data));
     yield take(GET_FAVORITE);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error.message);
+    yield showErrorMesseage(error.message);
+  }
 }
 
 export function* refreshToken() {
@@ -35,7 +31,9 @@ export function* refreshToken() {
     const data = yield call(auth);
     yield put(setUser(data));
     yield call(handleGetAllFavourite);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export function* watchLogin() {

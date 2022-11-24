@@ -6,15 +6,18 @@ import {
   fetchSeen,
 } from "./api/characters";
 import { GET_ALL_CHARACTERS, GET_ONE_CHARACTER } from "../constants";
-import { setCharacter, setOneCharacter } from "../actions/actionCreatore";
+import {
+  setPage,
+  setOneCharacter,
+  setErorr,
+  clearError,
+} from "../actions/actionCreatore";
 
 export function* handleCharacters({ payload }) {
   try {
     const { results, info } = yield call(fetchAllCharacters, payload);
-    yield put(setCharacter({ results, info }));
-  } catch (error) {
-    console.log(error);
-  }
+    yield put(setPage({ results, info }));
+  } catch (error) {}
 }
 
 export function* handleOneCharacter({ payload }) {

@@ -17,7 +17,7 @@ export default function SearchInput({ query, search, clear }) {
     <div className="flex leading-none text-[13.3333px]">
       <input
         type="text"
-        className="py-2 px-1 border-t border-l border-b border-solid border-[#afafaf]  rounded-l-sm placeholder:text-[rgb(175,175,175)]"
+        className="py-2 px-1 border-t border-l border-b border-solid border-[#afafaf] rounded-l-sm placeholder:text-slate-500"
         placeholder="Search by name..."
         value={name}
         onChange={(e) => setName(e.target.value)}

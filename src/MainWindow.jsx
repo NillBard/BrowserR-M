@@ -83,7 +83,7 @@ export default function MainWindow() {
             <div className="leading-[18px]">No cards</div>
           )}
         </div>
-        <div className="leading-none flex justify-end mt-4">
+        <div className=" leading-[18px] flex justify-end mt-4">
           <p className="mr-12">
             Page {queryPage} of {pageInfo?.pages || 1}
           </p>

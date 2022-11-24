@@ -15,3 +15,5 @@ export const SIGNUP_USER = "SIGNUP_USER";
 export const AUTH_USER = "AUTH_USER";
 export const SET_ONE_FAVOURITE = "SET_ONE_FAVOURITE";
 export const REMOVE_ONE_FAVOURITE = "REMOVE_ONE_FAVOURITE";
+export const SET_ERROR = "SET_ERROR";
+export const CLEAR_ERROR = "CLEAR_ERROR";

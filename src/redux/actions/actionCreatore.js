@@ -15,6 +15,8 @@ import {
   GET_FAVORITE,
   REMOVE_ONE_FAVOURITE,
   SET_ONE_FAVOURITE,
+  SET_ERROR,
+  CLEAR_ERROR,
 } from "../constants";
 
 export const addToFavorite = ({ date, id, name }) => ({
@@ -32,7 +34,7 @@ export const getAllCharacters = (payload) => ({
   payload,
 });
 
-export const setCharacter = ({ results, info }) => ({
+export const setPage = ({ results, info }) => ({
   type: SET_PAGE,
   payload: {
     results,
@@ -94,5 +96,15 @@ export const setOneFavourite = (payload) => ({
 
 export const removeOneFavourite = (payload) => ({
   type: REMOVE_ONE_FAVOURITE,
+  payload,
+});
+
+export const setErorr = ({ date, messeage }) => ({
+  type: SET_ERROR,
+  payload: { date, messeage },
+});
+
+export const clearError = (payload) => ({
+  type: CLEAR_ERROR,
   payload,
 });
